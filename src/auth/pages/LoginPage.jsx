@@ -45,6 +45,7 @@ export const LoginPage = () => {
               </Grid>
             </Grid>
             <Grid container direction='row' justifyContent='end'>
+              <Typography sx={{mr:1, mt:2}}>¿No tienes una cuenta?</Typography>
               <Link component={RouterLink} color="inherit" to="/auth/register" sx={{mt:2}}>
                 Crear una cuenta
               </Link>
