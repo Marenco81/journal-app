@@ -2,11 +2,12 @@ import {Link as RouterLink } from "react-router-dom"
 import { Button, Grid, Link, TextField, Typography} from "@mui/material"
 import { AuthLayout } from "../layout/AuthLayout"
 import { useForm } from "../../hooks";
+import { useState } from "react";
 
 const formData = {
-  email: 'alvaro@gmail.com',
-  password: '123456',
-  displayName: 'Alvaro Marenco'
+  email: '', // alvaro@gmail.com
+  password: '', // 123456
+  displayName: '' // Alvaro Marenco
   
 }
 
@@ -18,20 +19,21 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
   const { 
     formState, displayName, email, password, onInputChange, 
     isFormValid, displayNameValid, emailValid, passwordValid,
   } = useForm(formData, formValidations);
 
-  console.log(displayNameValid)
 
   const onSubmit = (event) => {
     event.preventDefault( )
+    setFormSubmitted(true);
     console.log(formState);
   }
   return (
     <AuthLayout title="Register">
-
         <form onSubmit={onSubmit}>
 
           <Grid container>
@@ -45,7 +47,7 @@ export const RegisterPage = () => {
                 name="displayName"
                 value={displayName}
                 onChange={onInputChange}
-                error={!displayNameValid}
+                error={!!displayNameValid && formSubmitted}
                 helperText= {displayNameValid}
               >
               </TextField>
@@ -60,6 +62,8 @@ export const RegisterPage = () => {
                 name="email"
                 value={email}
                 onChange={onInputChange}
+                error={!!emailValid && formSubmitted}
+                helperText= {emailValid}
               >
               </TextField>
             </Grid>
@@ -73,6 +77,8 @@ export const RegisterPage = () => {
                 name="password"
                 value={password}
                 onChange={onInputChange}
+                error={!!passwordValid && formSubmitted}
+                helperText= {passwordValid}
               >
               </TextField>
             </Grid>
