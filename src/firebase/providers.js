@@ -36,7 +36,7 @@ export const singInWithGoogle = async() => {
 export const registerWithEmailPassword = async ({email, password, displayName}) => {
     try {
 
-        const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
+        const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password, displayName);
         const {uid, photoURL} = resp.user;
 
         await updateProfile(FirebaseAuth.currentUser,{displayName})
@@ -66,5 +66,11 @@ export const loginWithEmailPassword = async ({email, password}) => {
         // console.log(error);
         return{ok:false, errorMessage: error.message}
     }
+
+}
+
+export const logoutFirebase = async () => {
+
+    return await FirebaseAuth.signOut();
 
 }
