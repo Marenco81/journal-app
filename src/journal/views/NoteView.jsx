@@ -1,10 +1,10 @@
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material"
-import { Button, Grid, IconButton, TextField, Typography } from "@mui/material"
+import { DeleteOutline, SaveOutlined, UploadOutlined } from "@mui/icons-material"
+import { Button, Grid, Grid2, IconButton, TextField, Typography } from "@mui/material"
 import { ImageGallery } from "../components"
 import { useForm } from "../../hooks"
 import { useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setActiveNote, startSaveNote, startUploadingFiles } from "../../store/journal"
+import { setActiveNote, startDeletingNote, startSaveNote, startUploadingFiles } from "../../store/journal"
 import Swal from "sweetalert2"
 import 'sweetalert2/dist/sweetalert2.css'
 
@@ -30,20 +30,24 @@ export const NoteView = () => {
 
      useEffect(() => {
         if(messageSaved.length > 0) {
-            Swal.fire('Nota actualizada', messageSaved, 'success');
+            Swal.fire('Note updated', messageSaved, 'success');
         }
      }, [messageSaved]);
 
      const onSaveNote = () => {
         dispatch(startSaveNote());
-     }
+     };
 
      const onFileInputChange = ({target }) => {
         if(target.files === 0) return;
 
         console.log('subiendo archivos');
         dispatch(startUploadingFiles(target.files)); 
-     }
+     };
+
+     const onDelete = () => {
+        dispatch(startDeletingNote());
+     };
     
   return (
     <Grid 
@@ -76,7 +80,7 @@ export const NoteView = () => {
             >
                 
                 <UploadOutlined sx={{fontSize:25, mr:1}}/>
-                Imágenes
+                Images
             </IconButton>
             <Button
                 disabled={isSaving}
@@ -85,7 +89,7 @@ export const NoteView = () => {
                 sx={{padding:2}}
             >
                 <SaveOutlined sx={{fontSize:25, mr:1}}/>
-                Guardar
+                Save
             </Button>
         </Grid>
 
@@ -94,8 +98,8 @@ export const NoteView = () => {
                 type="text"
                 variant="filled"
                 fullWidth
-                placeholder="Ingrese un título"
-                label="Título"
+                placeholder="Type a title"
+                label="Title"
                 sx={{border:'none', mb:1}}
                 name="title"
                 value={title}
@@ -106,13 +110,24 @@ export const NoteView = () => {
                 variant="filled"
                 fullWidth
                 multiline
-                placeholder="¿Qué sucedió el día de hoy?"
+                placeholder="What happened today?"
                 minRows={5}
                 name="body"
                 value={body}
                 onChange={onInputChange}
             />
         </Grid>
+
+        <Grid2>
+            <Button
+                onClick={onDelete}
+                sx={{mt:2}}
+                color="error"
+            >
+                <DeleteOutline/>
+                Delete Note
+            </Button>
+        </Grid2>
 
         {/* Galeria de imagenes */}
         <ImageGallery
