@@ -4,7 +4,7 @@ import { ImageGallery } from "../components"
 import { useForm } from "../../hooks"
 import { useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setActiveNote, startSaveNote } from "../../store/journal"
+import { setActiveNote, startSaveNote, startUploadingFiles } from "../../store/journal"
 import Swal from "sweetalert2"
 import 'sweetalert2/dist/sweetalert2.css'
 
@@ -42,7 +42,7 @@ export const NoteView = () => {
         if(target.files === 0) return;
 
         console.log('subiendo archivos');
-        // dispatch(startUploadingFiles(target.files)); 
+        dispatch(startUploadingFiles(target.files)); 
      }
     
   return (
@@ -72,7 +72,7 @@ export const NoteView = () => {
                 color="primary"
                 disabled={isSaving}
                 onClick={() => fileInputRef.current.click()}
-                sx={{fontSize:20}}
+                sx={{fontSize:17}}
             >
                 
                 <UploadOutlined sx={{fontSize:25, mr:1}}/>
